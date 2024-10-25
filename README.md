@@ -12,30 +12,42 @@ Notification System: Email and SMS notifications for appointment confirmations a
 ## Project Setup and Contribution Guide
 
 Requirements
+
 PHP 8.0+
+
 Composer
+
 MySQL or PostgreSQL (for database)
+
 Node.js and NPM (for frontend assets and JavaScript dependencies)
+
 Mailgun or Twilio (for notifications)
 
 ### Initial Setup
 ## Clone the Repository
+
 git clone https://github.com/Abram-MrRight/mediConnect.git
+
 cd mediconnect
 
 ## Install Dependencies
+
 composer install
+
 npm install
 
 ## Environment Configuration
 Copy the example environment file and update the necessary variables:
+
 cp .env.example .env
+
 php artisan key:generate
 
 ## Database Setup
 Update your .env file with your database credentials and run migrations:
 
 php artisan migrate
+
 Serve the Application
 
 ## Start the application locally:
@@ -47,7 +59,9 @@ Feature Branches: Create separate branches for each task (e.g., feature/authenti
 
 ## Folder Structure
 app/Models – Application models (e.g., User, Appointment, HealthRecord, Prescription)
+
 app/Http/Controllers – API and web controllers
+
 database/migrations – Database migration files for schema setup
 
 ## Contributing
