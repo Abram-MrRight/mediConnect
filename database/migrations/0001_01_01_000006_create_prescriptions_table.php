@@ -14,7 +14,8 @@ class CreatePrescriptionsTable extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('appointment_id')->constrained('appointments')->onDelete('cascade');
+            // Update the foreign key to reference 'new_appointments'
+            $table->foreignId('appointment_id')->constrained('new_appointments')->onDelete('cascade');
             $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('patient_id')->constrained('users')->onDelete('cascade');
             $table->text('medication');
@@ -34,5 +35,4 @@ class CreatePrescriptionsTable extends Migration
         Schema::dropIfExists('prescriptions');
     }
 }
-
 ?>
