@@ -24,6 +24,7 @@ Route::get('/login', function () {
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DoctorsController;
+use App\Http\Controllers\HealthRecordsController;
 
 // Other routes...
 
@@ -42,6 +43,7 @@ Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('
 Route::get('/terms-of-service', [TermsOfServiceController::class, 'index'])->name('terms.of.service');
 Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact.us');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::get('/healthrecords', [HealthRecordsController::class, 'index'])->name('healthrecords');
 Route::get('/consultations', function () {
     return view('consultations'); // Ensure this points to the correct view file
 })->name('consultations');
