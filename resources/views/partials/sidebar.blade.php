@@ -23,8 +23,30 @@
                     <span class="ml-3">Profile</span>
                 </a>
             </li>
-            <!-- Add more links as needed -->
+            <li class="p-4 hover:bg-gray-700 {{ request()->routeIs('doctors') ? 'bg-gray-700' : '' }}">
+                <a href="{{ route('doctors') }}" class="flex items-center">
+                    <span class="material-icons">local_hospital</span>
+                    <span class="ml-3">Doctors</span>
+                </a>
+            </li>
+            <li class="p-4 hover:bg-gray-700 {{ request()->routeIs('patients') ? 'bg-gray-700' : '' }}">
+                <a href="{{ route('patients') }}" class="flex items-center">
+                    <span class="material-icons">group</span>
+                    <span class="ml-3">Patients</span>
+                </a>
+            </li>
+            <li class="p-4 hover:bg-gray-700 {{ request()->routeIs('payments') ? 'bg-gray-700' : '' }}">
+                <a href="{{ route('payments') }}" class="flex items-center">
+                    <span class="material-icons">payment</span>
+                    <span class="ml-3">Payments</span>
+                </a>
+            </li>
+            <li class="p-4 hover:bg-gray-700 {{ request()->routeIs('settings') ? 'bg-gray-700' : '' }}">
+                <a href="{{ route('settings') }}" class="flex items-center">
+                    <span class="material-icons">settings</span>
+                    <span class="ml-3">Settings</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </aside>
-

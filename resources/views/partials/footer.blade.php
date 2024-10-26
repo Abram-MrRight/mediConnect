@@ -31,7 +31,7 @@
     </style>
 
     <div class="footer__left">
-        <p>&copy; {{ date('Y') }} Health-Care. All rights reserved.</p>
+        <p>&copy; {{ date('Y') }} MediConnect. All rights reserved.</p>
     </div>
 
     <div class="footer__right">
