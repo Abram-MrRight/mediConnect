@@ -14,11 +14,13 @@
         </div>
 
         <!-- Welcome Message -->
-        @if (Auth::check())
-            <p class="mb-6 text-lg text-gray-600">Welcome to your dashboard, {{ Auth::user()->name }}!</p>
-        @else
-            <p class="mb-6 text-lg text-gray-600">Welcome to the dashboard! Please note that some features may be limited.</p>
-        @endif
+        <p id="welcomeMessage" class="mb-6 text-lg text-gray-600">Welcome to your dashboard, 
+            @if (Auth::check()) 
+                {{ Auth::user()->name }}! 
+            @else 
+                we're excited to have you here. Explore the features and let us know how we can assist you today!
+            @endif
+        </p>
 
         <!-- Statistics Section with Icons -->
         <div class="grid grid-cols-3 gap-6">
@@ -41,7 +43,7 @@
             <h3 class="text-2xl font-bold text-gray-800 mb-4">Recent Activities</h3>
             <div class="space-y-4">
                 <!-- Activity Item -->
-                <div class="bg-gray-100 p-4 rounded-lg shadow-sm flex items-center">
+                <div class="bg-gray-100 p-4 rounded-lg shadow-sm flex items-center recent-activity">
                     <span class="material-icons text-blue-500 mr-4">folder_open</span>
                     <div>
                         <p class="text-gray-700 font-semibold">Reviewed 5 patient files</p>
@@ -49,7 +51,7 @@
                     </div>
                 </div>
                 <!-- Activity Item -->
-                <div class="bg-gray-100 p-4 rounded-lg shadow-sm flex items-center">
+                <div class="bg-gray-100 p-4 rounded-lg shadow-sm flex items-center recent-activity">
                     <span class="material-icons text-green-500 mr-4">check_circle</span>
                     <div>
                         <p class="text-gray-700 font-semibold">Completed 3 consultations</p>
@@ -57,7 +59,7 @@
                     </div>
                 </div>
                 <!-- Activity Item -->
-                <div class="bg-gray-100 p-4 rounded-lg shadow-sm flex items-center">
+                <div class="bg-gray-100 p-4 rounded-lg shadow-sm flex items-center recent-activity">
                     <span class="material-icons text-orange-500 mr-4">schedule</span>
                     <div>
                         <p class="text-gray-700 font-semibold">Scheduled 2 new appointments for next week</p>
@@ -117,7 +119,15 @@
                         responsive: true,
                         scales: {
                             y: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'black' // Default color
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: 'black' // Default color
+                                }
                             }
                         }
                     }
@@ -135,29 +145,47 @@
                     const toggleIcon = document.getElementById('toggleIcon');
                     const toggleText = document.getElementById('toggleText');
 
+                    const welcomeMessage = document.getElementById('welcomeMessage');
+
                     if (container.classList.contains('bg-gray-800')) {
                         toggleIcon.innerText = 'nightlight';
                         toggleText.innerText = 'Light Mode';
+                        // Change chart label colors
+                        appointmentsChart.options.scales.y.ticks.color = 'white';
+                        appointmentsChart.options.scales.x.ticks.color = 'white';
+                        // Change text colors
+                        welcomeMessage.classList.add('text-white');
+                        const activities = document.querySelectorAll('.recent-activity p');
+                        activities.forEach(activity => {
+                            activity.classList.remove('text-gray-700');
+                            activity.classList.add('text-white');
+                        });
+                        const timestamps = document.querySelectorAll('.recent-activity p.text-gray-500');
+                        timestamps.forEach(timestamp => {
+                            timestamp.classList.remove('text-gray-500');
+                            timestamp.classList.add('text-gray-400');
+                        });
                     } else {
                         toggleIcon.innerText = 'light_mode';
                         toggleText.innerText = 'Dark Mode';
+                        // Reset chart label colors
+                        appointmentsChart.options.scales.y.ticks.color = 'black';
+                        appointmentsChart.options.scales.x.ticks.color = 'black';
+                        // Reset text colors
+                        welcomeMessage.classList.remove('text-white');
+                        welcomeMessage.classList.add('text-gray-600');
+                        const activities = document.querySelectorAll('.recent-activity p');
+                        activities.forEach(activity => {
+                            activity.classList.add('text-gray-700');
+                            activity.classList.remove('text-white');
+                        });
+                        const timestamps = document.querySelectorAll('.recent-activity p.text-gray-400');
+                        timestamps.forEach(timestamp => {
+                            timestamp.classList.add('text-gray-500');
+                            timestamp.classList.remove('text-gray-400');
+                        });
                     }
-
-                    // Toggle other elements as needed
-                    const cards = document.querySelectorAll('.bg-gray-100');
-                    cards.forEach(card => {
-                        card.classList.toggle('bg-gray-700');
-                        card.classList.toggle('text-white');
-                    });
-
-                    const announcements = document.querySelector('.bg-teal-600');
-                    announcements.classList.toggle('bg-teal-700');
-
-                    const buttons = document.querySelectorAll('a');
-                    buttons.forEach(button => {
-                        button.classList.toggle('bg-gray-600');
-                        button.classList.toggle('bg-gray-300');
-                    });
+                    appointmentsChart.update();
                 });
             </script>
         </div>
