@@ -43,6 +43,7 @@ jobs:
         echo "QUEUE_CONNECTION=sync" >> .env
         echo "SESSION_DRIVER=array" >> .env
         echo "TELESCOPE_ENABLED=false" >> .env
+        echo "APP_KEY=" >> .env
 
     - name: Generate application key for testing
       run: php artisan key:generate --env=testing
