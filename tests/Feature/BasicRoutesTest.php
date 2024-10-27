@@ -37,4 +37,11 @@ class BasicRoutesTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('appointments');
     }
+
+    // Test the profile route renders the profile view.
+    public function test_profile_route_displays_profile() {
+        $response = $this->get(route('profile'));
+        $response->assertStatus(200);
+        $response->assertViewIs('profile');
+    }
 }
