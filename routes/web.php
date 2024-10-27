@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DoctorsController;
 
 // Home route - default route now points to the dashboard without requiring authentication
 Route::get('/', function () {
@@ -21,9 +24,6 @@ Route::get('/auth', function () {
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
-use App\Http\Controllers\AppointmentsController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\DoctorsController;
 
 // Other routes...
 
