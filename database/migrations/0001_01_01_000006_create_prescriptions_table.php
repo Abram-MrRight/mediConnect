@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,15 +14,12 @@ class CreatePrescriptionsTable extends Migration
     public function up()
     {
         Schema::create('prescriptions', function (Blueprint $table) {
-            $table->id();
-            // Update the foreign key to reference 'new_appointments'
-            $table->foreignId('appointment_id')->constrained('new_appointments')->onDelete('cascade');
-            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('patient_id')->constrained('users')->onDelete('cascade');
-            $table->text('medication');
-            $table->text('dosage');
-            $table->text('instructions');
-            $table->timestamps();
+            $table->id(); // Primary key
+            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade'); // Foreign key referencing users table
+            $table->foreignId('patient_id')->constrained('users')->onDelete('cascade'); // Foreign key referencing users table
+            $table->text('prescription_details'); // Prescription details
+            $table->date('issue_date'); // Date when the prescription was issued
+            $table->timestamps(); // Timestamps for created_at and updated_at
         });
     }
 
@@ -32,7 +30,6 @@ class CreatePrescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prescriptions');
+        Schema::dropIfExists('prescriptions'); // Drop the prescriptions table if it exists
     }
 }
-?>
