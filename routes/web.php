@@ -7,7 +7,8 @@ use App\Http\Controllers\DoctorsController;
 
 // Home route - default route now points to the dashboard without requiring authentication
 Route::get('/', function () {
-    return view('dashboard');
+    // return view('dashboard');
+    return view('landingPage');
 })->name('home');
 
 // Dashboard route
