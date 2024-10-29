@@ -107,7 +107,6 @@
                 @else
                     <span>Guest</span>
                 @endif
-                <span>Doctor</span>
             </div>
         </div>
     </div>
