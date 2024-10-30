@@ -17,7 +17,8 @@ class AuthTest extends TestCase
             'name' => 'Test User',
             'email' => 'testuser@example.com',
             'password' => 'password123',
-            'password_confirmation' => 'password123', // Include password confirmation if required
+            'password_confirmation' => 'password123',
+            'role' => 'doctor'
         ]);
 
         // Assert registration was successful and user is created in the database

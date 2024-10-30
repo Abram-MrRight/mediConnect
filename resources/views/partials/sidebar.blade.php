@@ -1,7 +1,7 @@
 <!-- resources/views/partials/sidebar.blade.php -->
 <aside class="w-64 h-screen bg-gray-800 text-white flex flex-col">
     <div class="p-4 text-center border-b border-gray-700">
-        <img src="{{ asset('images/mediconnect.png') }}" alt="mediConnect Logo" class="w-48 mx-auto"> <!-- Increased width to w-48 -->
+        <img src="{{ asset('images/mediconnect.png') }}" alt="mediConnect Logo" class="w-48 mx-auto">
         <!-- You can also try w-56 or w-64 for an even larger logo -->
     </div>
     <nav class="mt-4 flex-grow">
