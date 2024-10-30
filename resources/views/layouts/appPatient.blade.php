@@ -16,7 +16,7 @@
         <!-- Main Content Wrapper -->
         <div class="flex-1 flex flex-col">
             <!-- Header -->
-            @include('partials.header')
+            @include('partials.headerPatient')
 
             <!-- Main Content -->
             <main class="p-4 flex-1 overflow-auto">
