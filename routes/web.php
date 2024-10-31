@@ -21,20 +21,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('doctor')->name('doctor.')->group(function () {
+Route::prefix('doctor')->name('doctors.')->group(function () {
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
     Route::get('appointments', [HomeController::class, 'appointments'])->name('appointments');
     Route::get('patients', [HomeController::class, 'patients'])->name('patients');
     Route::get('doctors', [HomeController::class, 'doctors'])->name('doctors');
-    Route::get('/doctors/dashboard', [DoctorDashboardController::class, 'index'])->name('doctors.dashboard');
-    Route::get('health-records', [HomeController::class, 'healthRecords'])->name('healthRecords');
+    // Route::get('/doctors/dashboard', [DoctorDashboardController::class, 'index'])->name('doctors.dashboard');
+    Route::get('health-records', [HomeController::class, 'healthRecords'])->name('health_records');
     Route::get('prescriptions', [HomeController::class, 'prescriptions'])->name('prescriptions');
     Route::get('notifications', [HomeController::class, 'notifications'])->name('notifications');
 });
 
 Route::get('doctors', [HomeController::class, 'doctors'])->name('doctors');
 
-Route::get('/doctors/dashboard', [DoctorsController::class, 'dashboard'])->name('doctors.dashboard');
+// Route::get('/doctors/dashboard', [DoctorsController::class, 'dashboard'])->name('doctors.dashboard');
 
 // Show all appointments for the authenticated user
 Route::get('/appointments', [AppointmentsController::class, 'index'])->name('myappointments');
