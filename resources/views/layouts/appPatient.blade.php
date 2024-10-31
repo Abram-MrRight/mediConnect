@@ -12,13 +12,11 @@
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
     <div class="flex h-screen">
-        <!-- Sidebar -->
-        @include('partials.sidebar')
 
         <!-- Main Content Wrapper -->
         <div class="flex-1 flex flex-col">
             <!-- Header -->
-            @include('partials.header')
+            @include('partials.headerPatient')
 
             <!-- Main Content -->
             <main class="p-4 flex-1 overflow-auto">
