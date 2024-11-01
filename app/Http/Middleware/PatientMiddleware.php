@@ -15,6 +15,9 @@ class PatientMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (auth()->user() && auth()->user()->role == 0) {
+            return $next($request);
+        }
+        return redirect('/login');
     }
 }

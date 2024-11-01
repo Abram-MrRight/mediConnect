@@ -9,26 +9,30 @@ class Appointment extends Model
 {
     use HasFactory;
 
-    // Specify the table name since it's different from the default convention
-    protected $table = 'new_appointments';
-
     protected $fillable = [
-        'patient_id',
         'doctor_id',
+        'patient_id',
+        'appointment_date',
         'appointment_time',
-        'status',
-        'notes',
+        'appointment_type',
     ];
 
-    // Relationship with Doctor
-    public function doctor()
-    {
-        return $this->belongsTo(Doctor::class, 'doctor_id');
+    public function doctor(){
+        return $this->belongsTo(Doctor::class,'doctor_id');
     }
 
-    // Relationship with Patient
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class, 'patient_id');
+    public function patient(){
+        return $this->belongsTo(User::class,'patient_id');
+    }
+
+    public function scopeSearch($query, $value){
+        $query->where('appointment_date','like',"%{$value}%")
+                ->orWhere('appointment_time','like',"%{$value}%")
+            ->orWhereHas('doctor.doctorUser', function($q) use ($value) {
+                $q->where('name', 'like', "%{$value}%");
+            })
+            ->orWhereHas('patient', function($q) use ($value) {
+                $q->where('name', 'like', "%{$value}%");
+            });
     }
 }

@@ -1,49 +1,86 @@
 <?php
 
-use App\Http\Controllers\AppointmentsController;
-use App\Http\Controllers\Doctor\HomeController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function() {
-    return view('welcome');
-})->name('home');
+Route::view('/', 'welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('my-appointments', [AppointmentsController::class, 'index'])->name('myAppointments');
+Route::group(['middleware' => 'patient'], function(){
+    Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified','patient']) //role == 0
+    ->name('dashboard');
+    Route::post('/chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for patients
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/my/appointments',[PatientController::class,'loadMyAppointments'])
+    ->name('my-appointments');
+
+     Route::get('/articles',[PatientController::class,'loadArticles'])
+    ->name('articles');
+
+    Route::get('/booking/page/{doctor_id}',[PatientController::class,'loadBookingPage']);
+
+    Route::get('/patient/reschedule/{appointment_id}',[PatientController::class,'loadReschedulingForm']);
+
 });
 
-Route::prefix('doctor')->name('doctors.')->group(function () {
-    Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::get('appointments', [HomeController::class, 'appointments'])->name('appointments');
-    Route::get('patients', [HomeController::class, 'patients'])->name('patients');
-    Route::get('doctors', [HomeController::class, 'doctors'])->name('doctors');
-    // Route::get('/doctors/dashboard', [DoctorDashboardController::class, 'index'])->name('doctors.dashboard');
-    Route::get('health-records', [HomeController::class, 'healthRecords'])->name('health_records');
-    Route::get('prescriptions', [HomeController::class, 'prescriptions'])->name('prescriptions');
-    Route::get('notifications', [HomeController::class, 'notifications'])->name('notifications');
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
+Route::get('/live_consultation',[PatientController::class,'loadLiveConsultationPage']);
+Route::get('/all/doctors',[PatientController::class,'loadAllDoctors']);
+Route::get('/filter-by-speciality/{speciality_id}',[PatientController::class,'loadDoctorBySpeciality']);
+
+
+
+Route::group(['middleware' => 'doctor'], function(){
+
+    Route::get('/doctor/dashboard',[DoctorController::class,'loadDoctorDashboard'])
+    ->name('doctor-dashboard');
+    Route::post('/doctor-chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for doctors
+
+
+    Route::get('/doctor/appointments',[DoctorController::class,'loadAllAppointments'])
+    ->name('doctor-appointments');
+
+    Route::get('/doctor/schedules',[DoctorController::class,'loadAllSchedules'])
+    ->name('my-schedules');
+
+    Route::get('/create/schedule',[DoctorController::class,'loadAddScheduleForm']);
+
+    Route::get('/edit/schedule/{schedule_id}',[DoctorController::class,'loadEditScheduleForm']);
+
+    Route::get('/doctor/reschedule/{appointment_id}',[DoctorController::class,'loadReschedulingForm']);
+
 });
 
-Route::get('doctors', [HomeController::class, 'doctors'])->name('doctors');
+Route::group(['middleware' => 'admin'],function(){
+    Route::get('/admin/dashboard',[AdminController::class,'loadAdminDashboard'])
+    ->name('admin-dashboard');
+    Route::post('/admin-chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for admins
 
-// Route::get('/doctors/dashboard', [DoctorsController::class, 'dashboard'])->name('doctors.dashboard');
+    Route::get('/admin/doctors',[AdminController::class,'loadDoctorListing'])
+    ->name('admin-doctors');
+    Route::get('/edit/doctor/{speciality}',[AdminController::class,'loadEditDoctorForm']);
 
-// Show all appointments for the authenticated user
-Route::get('/appointments', [AppointmentsController::class, 'index'])->name('myappointments');
+    Route::get('/admin/create/doctor',[AdminController::class,'loadDoctorForm']);
 
-// Show the form to create a new appointment
-Route::get('/appointments/create', [AppointmentsController::class, 'create'])->name('appointments.create');
+    Route::get('/admin/specialities',[AdminController::class,'loadAllSpecialities'])
+    ->name('admin-specialities');
 
-// Store the new appointment
-Route::post('/appointments', [AppointmentsController::class, 'store'])->name('appointments.store');
+    // specilities
+    Route::get('/admin/create/specility',[AdminController::class,'loadSpecialityForm']);
+    Route::get('/edit/speciality/{speciality}',[AdminController::class,'loadEditSpecialityForm']);
+
+
+    // appointments
+    Route::get('/admin/appointments',[AdminController::class,'loadAllAppointments'])
+    ->name('admin-appointments');
+    Route::get('/admin/reschedule/{appointment_id}',[AdminController::class,'loadReschedulingForm']);
+});
 
 require __DIR__.'/auth.php';
-

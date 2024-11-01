@@ -9,27 +9,22 @@ class Doctor extends Model
 {
     use HasFactory;
 
-    // Fillable attributes for mass assignment
     protected $fillable = [
-        'name',
-        'email',
-        'phone_number',
-        'specialization',
-        'license_number',
-        'experience_years',
-        'clinic_address',
-        'available_days',
-        'notes',
+            'bio',
+            'hospital_name',
+            'speciality_id',
+            'user_id',
+            'twitter',
+            'instagram',
+            'experience',
+            'is_featured',
     ];
 
-    // Relationships
-    public function patients()
-    {
-        return $this->hasMany(Patient::class, 'preferred_doctor_id');
+    public function speciality(){
+        return $this->belongsTo(Specialities::class,'speciality_id');
     }
 
-    public function appointments()
-    {
-        return $this->hasMany(Appointment::class);
+    public function doctorUser(){
+        return $this->belongsTo(User::class,'user_id');
     }
 }

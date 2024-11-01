@@ -1,9 +1,0 @@
-//create a project
-composer create-project --prefer-dist laravel/laravel mediConnect
-
-//migrate tables
-php artisan migrate
-
-//run server 
-php artisan serve
-
