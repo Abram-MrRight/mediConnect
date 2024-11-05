@@ -1,22 +1,35 @@
-<!-- resources/views/profile.blade.php -->
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Profile') }}
+        </h2>
+    </x-slot>
 
-@section('title', 'Profile')
-
-@section('content')
-    <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4">Profile</h2>
-
-        @if (Auth::check())
-            <div class="profile-section">
-                <img src="{{ asset('path/to/profile/image.jpg') }}" alt="Profile Picture" class="profile-pic">
-                <div class="profile-info">
-                    <span>Dr. {{ Auth::user()->name }}</span>
-                    <span>Doctor</span>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <livewire:profile.update-profile-information-form />
                 </div>
             </div>
-        @else
-            <p>You are not logged in. Please log in to view your profile.</p>
-        @endif
+
+             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <livewire:profile-image-upload />
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <livewire:profile.update-password-form />
+                </div>
+            </div>
+
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="max-w-xl">
+                    <livewire:profile.delete-user-form />
+                </div>
+            </div>
+        </div>
     </div>
-@endsection
+</x-app-layout>
