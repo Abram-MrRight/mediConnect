@@ -35,17 +35,78 @@ Route::get('/doctors/{id}', [DoctorsController::class, 'show'])->name('doctors.s
 
 Route::get('/doctors', [DoctorsController::class, 'index'])->name('doctors.index');
 
+Route::group(['middleware' => 'patient'], function(){
+    Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified','patient']) //role == 0
+    ->name('dashboard');
+    Route::post('/chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for patients
 
-Route::get('/appointments', [AppointmentsController::class, 'index'])->name('appointments');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::get('/doctors', [DoctorsController::class, 'index'])->name('doctors');
-Route::get('/patients', [PatientsController::class, 'index'])->name('patients');
-Route::get('/payments', [PaymentsController::class, 'index'])->name('payments');
-Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
-Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy.policy');
-Route::get('/terms-of-service', [TermsOfServiceController::class, 'index'])->name('terms.of.service');
-Route::get('/contact-us', [ContactUsController::class, 'index'])->name('contact.us');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::get('/consultations', function () {
-    return view('consultations'); // Ensure this points to the correct view file
-})->name('consultations');
+
+    Route::get('/my/appointments',[PatientController::class,'loadMyAppointments'])
+    ->name('my-appointments');
+
+     Route::get('/articles',[PatientController::class,'loadArticles'])
+    ->name('articles');
+
+    Route::get('/booking/page/{doctor_id}',[PatientController::class,'loadBookingPage']);
+
+    Route::get('/patient/reschedule/{appointment_id}',[PatientController::class,'loadReschedulingForm']);
+
+});
+
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
+Route::get('/live_consultation',[PatientController::class,'loadLiveConsultationPage']);
+Route::get('/all/doctors',[PatientController::class,'loadAllDoctors']);
+Route::get('/filter-by-speciality/{speciality_id}',[PatientController::class,'loadDoctorBySpeciality']);
+
+
+
+Route::group(['middleware' => 'doctor'], function(){
+
+    Route::get('/doctor/dashboard',[DoctorController::class,'loadDoctorDashboard'])
+    ->name('doctor-dashboard');
+    Route::post('/doctor-chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for doctors
+
+
+    Route::get('/doctor/appointments',[DoctorController::class,'loadAllAppointments'])
+    ->name('doctor-appointments');
+
+    Route::get('/doctor/schedules',[DoctorController::class,'loadAllSchedules'])
+    ->name('my-schedules');
+
+    Route::get('/create/schedule',[DoctorController::class,'loadAddScheduleForm']);
+
+    Route::get('/edit/schedule/{schedule_id}',[DoctorController::class,'loadEditScheduleForm']);
+
+    Route::get('/doctor/reschedule/{appointment_id}',[DoctorController::class,'loadReschedulingForm']);
+
+});
+
+Route::group(['middleware' => 'admin'],function(){
+    Route::get('/admin/dashboard',[AdminController::class,'loadAdminDashboard'])
+    ->name('admin-dashboard');
+    Route::post('/admin-chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for admins
+
+    Route::get('/admin/doctors',[AdminController::class,'loadDoctorListing'])
+    ->name('admin-doctors');
+    Route::get('/edit/doctor/{speciality}',[AdminController::class,'loadEditDoctorForm']);
+
+    Route::get('/admin/create/doctor',[AdminController::class,'loadDoctorForm']);
+
+    Route::get('/admin/specialities',[AdminController::class,'loadAllSpecialities'])
+    ->name('admin-specialities');
+
+    // specilities
+    Route::get('/admin/create/specility',[AdminController::class,'loadSpecialityForm']);
+    Route::get('/edit/speciality/{speciality}',[AdminController::class,'loadEditSpecialityForm']);
+
+
+    // appointments
+    Route::get('/admin/appointments',[AdminController::class,'loadAllAppointments'])
+    ->name('admin-appointments');
+    Route::get('/admin/reschedule/{appointment_id}',[AdminController::class,'loadReschedulingForm']);
+});
+
+require __DIR__.'/auth.php';
