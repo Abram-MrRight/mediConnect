@@ -1,0 +1,18 @@
+composer upgrade
+copy .env.example .env 
+
+//update the following in yr .env 
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=youremail
+MAIL_PASSWORD=generate this password from your gmail account and copy here
+MAIL_ENCRYPTION=TLS
+MAIL_FROM_ADDRESS="youremail"
+MAIL_FROM_NAME="${APP_NAME}"
+
+npm install
+npm run build
+npm artisan migrate
+php artisan key:generate
+
