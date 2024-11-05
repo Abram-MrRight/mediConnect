@@ -18,7 +18,7 @@
               Business
             </p>
           </div>
-          <h3 class="text-lg sm:text-2xl font-semibold text-gray-800 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
+          <h3 class="text-lg sm:text-2xl font-semibold text-gray-900 group-hover:text-blue-600 dark:text-neutral-300 dark:group-hover:text-white">
             Preline becomes an official Instagram Marketing Partner
           </h3>
           <p class="mt-2 text-gray-600 dark:text-neutral-400">

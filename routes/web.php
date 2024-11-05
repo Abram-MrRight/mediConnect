@@ -10,23 +10,31 @@ Route::view('/', 'welcome');
 
 
 Route::group(['middleware' => 'patient'], function(){
-    Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified','patient']) //role == 0
+    Route::get('dashboard', function() {
+        $responses = [
+            ['type' => 'user', 'message' => 'My enquiry'],
+            ['type' => 'bot', 'message' => 'An answer to the enquiry'],
+            ['type' => 'user', 'message' => 'My second enquiry'],
+            ['type' => 'bot', 'message' => 'Its response'],
+        ];
+        return view('dashboard', ['responses' => $responses]);
+    })
+    ->middleware(['auth', 'verified', 'patient']) // role == 0
     ->name('dashboard');
+
     Route::post('/chatbot/respond', [ChatbotController::class, 'respond']); // Chatbot route for patients
 
+    Route::get('/my/appointments', [PatientController::class, 'loadMyAppointments'])
+        ->name('my-appointments');
 
-    Route::get('/my/appointments',[PatientController::class,'loadMyAppointments'])
-    ->name('my-appointments');
+    Route::get('/articles', [PatientController::class, 'loadArticles'])
+        ->name('articles');
 
-     Route::get('/articles',[PatientController::class,'loadArticles'])
-    ->name('articles');
+    Route::get('/booking/page/{doctor_id}', [PatientController::class, 'loadBookingPage']);
 
-    Route::get('/booking/page/{doctor_id}',[PatientController::class,'loadBookingPage']);
-
-    Route::get('/patient/reschedule/{appointment_id}',[PatientController::class,'loadReschedulingForm']);
-
+    Route::get('/patient/reschedule/{appointment_id}', [PatientController::class, 'loadReschedulingForm']);
 });
+
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
