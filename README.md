@@ -36,12 +36,26 @@ composer install
 
 npm install
 
+npm run build
+
 ## Environment Configuration
 Copy the example environment file and update the necessary variables:
 
 cp .env.example .env
 
 php artisan key:generate
+
+Sign in to your Gmail account.
+Go to your Google Account settings.
+Navigate to Security.
+Find the Less secure app access section and turn it ON. (Note: This option may not be available for accounts with enhanced security, like those with 2-Step Verification.)
+If 2-step verification is enabled: Select 2-step Verification and then click App passwords.
+
+Select Mail as the app and your device type, then click Generate.
+A 16-character password will be displayed. This will be used as your MAIL_PASSWORD.
+
+Make sure MAIL_ENCRYPTION is set to ssl if you are using port 465.
+Use your full Gmail address for MAIL_USERNAME.
 
 ## Database Setup
 Update your .env file with your database credentials and run migrations:
@@ -63,9 +77,6 @@ app/Models – Application models (e.g., User, Appointment, HealthRecord, Prescr
 app/Http/Controllers – API and web controllers
 
 database/migrations – Database migration files for schema setup
-
-## Contributing
-Thank you for your interest in contributing to MediConnect! Please follow the branch protection rules and ensure code is well-documented. For detailed contribution guidelines, see the Laravel documentation.
 
  ## Security Vulnerabilities
 If you discover a security vulnerability, please report it to the project maintainers.
