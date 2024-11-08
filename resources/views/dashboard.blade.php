@@ -57,37 +57,58 @@
         const chatData = @json($responses);
         
         document.addEventListener("DOMContentLoaded", function() {
-            const chatbotButton = document.getElementById("chatbot-button");
-            const chatbotContainer = document.getElementById("chatbot-container");
-            const chatbot = document.getElementById("chatbot");
-            const closeChatbot = document.getElementById("close-chatbot");
-            const chatInput = document.getElementById("chat-input");
-            const chatMessages = document.getElementById("chatbot-messages");
-            const sendChat = document.getElementById("send-chat");
+  const chatData = @json($responses);
 
-            // Show the chatbot UI when button is clicked
-            chatbotButton.addEventListener("click", () => {
-                chatbot.classList.toggle("hidden");
-                chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
-            });
+  const chatbotButton = document.getElementById("chatbot-button");
+  const chatbotContainer = document.getElementById("chatbot-container");
+  const chatbot = document.getElementById("chatbot");
+  const closeChatbot = document.getElementById("close-chatbot");
+  const chatInput = document.getElementById("chat-input");
+  const chatMessages = document.getElementById("chatbot-messages");
+  const sendChat = document.getElementById("send-chat");
 
-            // Close the chatbot UI
-            closeChatbot.addEventListener("click", () => {
-                chatbot.style.display = "none";
-            });
+  // Show the chatbot UI when button is clicked
+  chatbotButton.addEventListener("click", () => {
+    chatbot.classList.toggle("hidden");
+    chatbot.style.display = chatbot.style.display === "block" ? "none" : "block";
+  });
 
-            // Send a message
-            sendChat.addEventListener("click", () => {
-                const messageText = chatInput.value.trim();
-                if (messageText) {
-                    const messageDiv = document.createElement("div");
-                    messageDiv.textContent = messageText;
-                    messageDiv.className = "p-2 my-2 bg-blue-100 rounded";
-                    chatMessages.appendChild(messageDiv);
-                    chatInput.value = ""; // Clear input field
-                    chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
-                }
-            });
-        });
+  // Close the chatbot UI
+  closeChatbot.addEventListener("click", () => {
+    chatbot.style.display = "none";
+  });
+
+  // Send a message
+  sendChat.addEventListener("click", () => {
+    const messageText = chatInput.value.trim();
+    if (messageText) {
+      const messageDiv = document.createElement("div");
+      messageDiv.textContent = messageText;
+      messageDiv.className = "p-2 my-2 bg-blue-100 rounded";
+      chatMessages.appendChild(messageDiv);
+      chatInput.value = ""; // Clear input field
+      chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+
+      fetch('http://127.0.0.1:8000/chatbot/respond', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+         },
+        body: JSON.stringify({ message: messageText })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const botMessageDiv = document.createElement("div");
+        botMessageDiv.textContent = data.response;
+        botMessageDiv.className = "p-2 my-2 bg-green-100 rounded";
+        chatMessages.appendChild(botMessageDiv);
+      })
+      .catch(error => {
+        console.error("Error sending message:", error);
+        // Display an error message to the user
+      });
+    }
+  });
+});
     </script>
 </x-app-layout>

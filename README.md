@@ -78,9 +78,6 @@ app/Http/Controllers – API and web controllers
 
 database/migrations – Database migration files for schema setup
 
-## Contributing
-Thank you for your interest in contributing to MediConnect! Please follow the branch protection rules and ensure code is well-documented. For detailed contribution guidelines, see the Laravel documentation.
-
  ## Security Vulnerabilities
 If you discover a security vulnerability, please report it to the project maintainers.
 

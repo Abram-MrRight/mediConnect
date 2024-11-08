@@ -163,12 +163,15 @@
                         </td>
                         <td class="size-px whitespace-nowrap align-top">
                           <div class="flex p-6">
-                            <button class="bg-green-500 rounded mx-3 text-white p-1 ml-3" wire:click="start({{$appointment->id}})" wire:confirm="Are you really want to Join this Video Call?">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                  </svg>
-
-                              </button>
+                            <button 
+    class="bg-green-500 rounded mx-3 text-white p-1 ml-3" 
+    onclick="joinZoomMeeting('https://us05web.zoom.us/j/89828668452?pwd=CqzAeXmi8Z6Z9VryHboqeBLCSpAvVa.1')"
+    wire:confirm="Are you sure you want to join this video call?"
+>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+    </svg>
+</button>
                             @if (auth()->user()->role == 0)
                                   <a href="/patient/reschedule/{{$appointment->id}}" class="bg-blue-500 rounded text-white p-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -231,3 +234,10 @@
   </div>
   <!-- End Card -->
 </div>
+<script>
+  function joinZoomMeeting(url) {
+      if (confirm("Are you sure you want to join this video call?")) {
+          window.open(url, '_blank'); // Opens the link in a new tab
+      }
+  }
+</script>

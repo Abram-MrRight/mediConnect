@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\ChatbotServices;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
@@ -16,15 +16,23 @@ class ChatbotController extends Controller
     }
 
     public function respond(Request $request)
-    {
-        $request->validate(['message' => 'required|string']);
+{
+    try {
+        // Retrieve user message from the request
+        $userMessage = $request->input('message');
 
-        $message = $request->input('message');
+        // Process message and generate response
+        // Example: response from chatbot logic
+        $responseMessage = "Hello, you said: " . $userMessage;
 
-        // Process the message based on user role
-        $role = Auth::user()->role; // Assuming the role is stored in the user model
-        $response = $this->chatbotServices->processMessage($message, $role);
+        return response()->json(['response' => $responseMessage]);
+    } catch (\Exception $e) {
+        // Log the error for debugging
+        Log::error('Error in chatbot respond:', ['error' => $e->getMessage()]);
 
-        return response()->json(['response' => $response]);
+        // Return JSON error response
+        return response()->json(['error' => 'Something went wrong. Please try again later.'], 500);
     }
+}
+
 }
