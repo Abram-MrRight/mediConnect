@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\Appointment;
+use App\Models\Reminders;
 use App\Models\DoctorSchedule;
 use Illuminate\Support\Carbon;
 use App\Mail\AppointmentCreated;
@@ -48,10 +49,29 @@ class BookingComponent extends Component
         // dd($appointmentEmailData);
         $this->sendAppointmentNotification($appointmentEmailData);
 
+        // String Formating
+        $title = 'You have an appointment with Dr.'.$this->doctor_details->doctorUser->name.' on '.$this->selectedDate. ' ' .$slot;
+
+        // Date Fromating
+        $date = Carbon::createFromFormat('D M d Y', $this->selectedDate);
+        $formattedDate = $date->format('d/m/Y');
+        $time = Carbon::parse($slot)->format('H:i');
+        $datetime = Carbon::parse("{$formattedDate} {$time}");
+
+        // Save Reminder
+        $reminder = new Reminders();
+        $reminder->appointment_id = $newAppointment->id;
+        $reminder->title = $title;
+        $reminder->user_name = auth()->user()->name;
+        $reminder->time = $datetime;
+        $reminder->email = auth()->user()->email;
+        $reminder->save();
+
         session()->flash('message','appointment with Dr.'.$this->doctor_details->doctorUser->name.' on '.$this->selectedDate.$slot.' was created!');
 
         return $this->redirect('/my/appointments',navigate: true);
     }
+
     public function fetchAvailableDates($doctor)
     {
         $schedules = DoctorSchedule::where('doctor_id', $doctor->id)
